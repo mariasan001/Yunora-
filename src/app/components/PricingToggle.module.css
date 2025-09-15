@@ -1,0 +1,65 @@
+.wrapper {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.toggle button {
+  border: none;
+  padding: 0.8rem 1.5rem;
+  margin: 0 0.5rem;
+  border-radius: 25px;
+  background: #eee;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.toggle button:hover {
+  background: #ddd;
+}
+
+.toggle .active {
+  background: #5A4FCF;
+  color: white;
+}
+
+.plans {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.plan {
+  flex: 1;
+  min-width: 220px;
+  max-width: 300px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.plan:hover {
+  transform: translateY(-5px);
+}
+
+.plan h3 {
+  color: #5A4FCF;
+  margin-bottom: 0.5rem;
+}
+
+.plan strong {
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #2D2D2D;
+}

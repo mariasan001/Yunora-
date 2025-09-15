@@ -1,0 +1,123 @@
+.main {
+  font-family: 'Inter', sans-serif;
+  color: #2D2D2D;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid #eee;
+}
+.logo {
+  font-weight: bold;
+  color: #5A4FCF;
+  font-size: 1.5rem;
+}
+.navbar nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #444;
+}
+.cta {
+  background: #FFD166;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #2D2D2D;
+}
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: #f9f9ff;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  color: #5A4FCF;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+.heroBtn {
+  background: #5A4FCF;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ===== SECCIONES ===== */
+.section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.steps div {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.features {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+.features li {
+  margin: 0.8rem 0;
+}
+
+/* ===== PLANES ===== */
+.plans {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.plan {
+  flex: 1;
+  padding: 2rem;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+.plan h3 {
+  color: #5A4FCF;
+  margin-bottom: 1rem;
+}
+
+/* ===== CTA FINAL ===== */
+.ctaFinal {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #FFD166;
+}
+.ctaFinal h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #2D2D2D;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}

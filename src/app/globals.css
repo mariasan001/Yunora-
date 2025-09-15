@@ -1,0 +1,13 @@
+:root {
+  --color-primary: #5A4FCF;   /* Lila elegante */
+  --color-secondary: #FFD166; /* Dorado suave */
+  --color-dark: #2D2D2D;      /* Neutro elegante */
+  --color-light: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--color-light);
+  color: var(--color-dark);
+}
