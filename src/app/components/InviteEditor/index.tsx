@@ -1,8 +1,8 @@
+// src/components/InviteEditor/index.tsx
 "use client";
 
 import Link from "next/link";
 import styles from "@/app/crear/editor.module.css";
-import previewStyles from "@/app/crear/preview.module.css"; // asegura bundling
 import { titleForType } from "@/lib/events";
 import { canUse } from "@/lib/plans";
 import type { EventType } from "@/lib/events";
@@ -11,7 +11,7 @@ import PlanBar from "./parts/PlanBar";
 import DesignPanel from "./panels/DesignPanel";
 import ContentPanel from "./panels/ContentPanel";
 import ExtrasPanel from "./panels/ExtrasPanel";
-import Preview from "./preview/Preview";
+import TemplateSwitcher from "./preview/TemplateSwitcher"; // 👈 reemplaza Preview
 import { useInviteState } from "../features/hooks/useInviteState";
 
 export default function InviteEditor({ initialType }: { initialType: EventType }) {
@@ -49,7 +49,11 @@ export default function InviteEditor({ initialType }: { initialType: EventType }
         </aside>
 
         <div>
-          <Preview cfg={cfg} fontCSS={fontCSS} watermark={!canUse("removeWatermark", plan)} />
+          <TemplateSwitcher
+            cfg={cfg}
+            fontCSS={fontCSS}
+            watermark={!canUse("removeWatermark", plan)}
+          />
           <div className={styles.footerBar}>
             <a className={styles.btnPrimary} href={previewLink} target="_blank" rel="noopener noreferrer">Abrir vista previa</a>
             <button className={styles.btnSecondary} onClick={shareWhatsApp}>Compartir</button>
