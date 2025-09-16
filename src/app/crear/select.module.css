@@ -1,0 +1,87 @@
+:root{
+  --yu-lilac:#5A4FCF;
+  --yu-gold:#FFD166;
+  --yu-ink-900:#1f1d2b;
+  --yu-ink-700:#4b4b4b;
+  --yu-ink-600:#6a6a6a;
+  --yu-card:#fff;
+  --yu-border:#eee;
+  --yu-soft-border:#ECEAFF;
+  --yu-ring:rgba(90,79,207,.18);
+}
+
+.wrap{ padding:2.4rem 1.5rem 2.6rem; position:relative; isolation:isolate; background:#fff; }
+
+/* halo superior suave */
+.mist{
+  position:absolute; inset:-120px 0 auto 0; height:260px; z-index:-1;
+  background:radial-gradient(1200px 200px at 50% 0%, rgba(236,233,255,.95), rgba(236,233,255,0));
+}
+
+.head{ text-align:center; max-width:880px; margin:0 auto 1.4rem; }
+.head h1{
+  margin:0 0 .45rem; color:var(--yu-ink-900);
+  font-size:clamp(2rem,3.6vw,3rem); font-weight:950; letter-spacing:.1px;
+}
+.sub{ color:var(--yu-ink-700); margin:0; }
+
+/* chips filtro */
+.chips{
+  margin:1.05rem auto 0; display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center;
+}
+.chip{
+  border:1px solid var(--yu-soft-border);
+  background:#F9F8FF; color:#4a3fd0;
+  padding:.45rem .8rem; border-radius:999px; font-weight:800; font-size:.95rem;
+  cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.chip:hover{ transform:translateY(-2px); border-color:#dcd8ff; }
+.chipActive{
+  background:var(--yu-gold); color:#2D2D2D; border-color:#f5c650;
+  box-shadow:0 8px 18px rgba(255,209,102,.35);
+}
+
+/* grid */
+.grid{
+  max-width:1140px; margin:1.6rem auto 0;
+  display:grid; gap:1.1rem; grid-template-columns:repeat(4, minmax(220px,1fr));
+}
+
+/* tarjetas estilo Yunora */
+.card{
+  display:grid; grid-template-columns:auto 1fr; align-items:center; gap:.9rem;
+  background:var(--yu-card); border:1px solid var(--yu-border); border-radius:18px;
+  padding:1.05rem 1.1rem; text-decoration:none; color:inherit;
+  box-shadow:0 12px 28px rgba(0,0,0,.05);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 36px rgba(0,0,0,.08);
+  border-color:var(--yu-soft-border);
+}
+.card:focus-visible{ outline:none; box-shadow:0 0 0 6px var(--yu-ring); }
+
+/* burbuja de ícono */
+.iconWrap{
+  width:48px; height:48px; border-radius:14px; display:grid; place-items:center;
+  background:linear-gradient(180deg, rgba(90,79,207,.10), rgba(90,79,207,.06));
+  border:1px solid var(--yu-soft-border);
+}
+.icon{ width:24px; height:24px; color:var(--yu-lilac); }
+
+/* texto */
+.cardText{ display:grid; gap:.15rem; }
+.title{ margin:0; color:var(--yu-ink-900); font-weight:850; font-size:1.1rem; }
+.caption{ margin:0; color:var(--yu-ink-600); }
+
+/* nota final */
+.note{ text-align:center; margin-top:1.2rem; color:var(--yu-ink-600); font-size:.98rem; }
+
+/* responsive */
+@media (max-width:1080px){ .grid{ grid-template-columns:repeat(3, minmax(220px,1fr)); } }
+@media (max-width:820px){ .grid{ grid-template-columns:repeat(2, minmax(220px,1fr)); } }
+@media (max-width:520px){
+  .grid{ grid-template-columns:1fr; }
+  .iconWrap{ width:44px; height:44px; }
+}

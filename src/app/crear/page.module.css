@@ -1,0 +1,49 @@
+.wrap { padding: 1.5rem 2rem 2rem; }
+
+.header {
+  display: grid; grid-template-columns: 1fr auto auto; gap: .8rem; align-items: center;
+  margin: 0 0 1rem;
+}
+.back { color: #5A4FCF; text-decoration: none; font-weight: 700; }
+.header h1 { text-align: center; margin: 0; color: #1f1d2b; }
+.actions { justify-self: end; display: flex; gap: .6rem; flex-wrap: wrap; }
+
+.btnPrimary, .btnSecondary {
+  border-radius: 999px; padding: .6rem 1rem; font-weight: 700; text-decoration: none; border: none; cursor: pointer;
+}
+.btnPrimary { background: #5A4FCF; color: #fff; }
+.btnSecondary { background: #FFD166; color: #2D2D2D; }
+
+.editor {
+  display: grid; grid-template-columns: 360px 1fr; gap: 1rem; margin-top: .5rem;
+}
+
+/* Panel */
+.panel {
+  background: #fff; border: 1px solid #eee; border-radius: 14px;
+  padding: 1rem; box-shadow: 0 10px 26px rgba(0,0,0,.05);
+  height: calc(100svh - 140px); overflow: auto; position: sticky; top: 80px;
+}
+.group { margin-bottom: 1rem; }
+.group h3 { margin: .2rem 0 .6rem; color: #1f1d2b; }
+.row { display: flex; gap: .6rem; }
+.radio { display: inline-flex; align-items: center; gap: .35rem; }
+.colors { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+
+/* 👇 Antes: .select, input, textarea { ... }  */
+.select,
+.control {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: .55rem .7rem;
+}
+
+.label { display: grid; gap: .25rem; margin-bottom: .6rem; font-size: .95rem; color: #333; }
+.hint { color: #777; font-size: .9rem; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .editor { grid-template-columns: 1fr; }
+  .panel { position: static; height: auto; }
+}

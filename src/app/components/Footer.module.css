@@ -1,0 +1,104 @@
+.footer {
+  position: relative;
+  background: #111322;
+  color: #dcdcef;
+  overflow: hidden;
+}
+
+/* glow superior */
+.topGlow {
+  height: 6px;
+  background: linear-gradient(90deg, #5A4FCF, #FFD166);
+  opacity: 0.9;
+}
+
+/* contenido principal */
+.inner {
+  width: min(1120px, 92%);
+  margin: 0 auto;
+  padding: 2.2rem 0 1.2rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 2rem;
+}
+
+.brand { max-width: 520px; }
+.logo {
+  display: inline-block;
+  font-weight: 800;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  color: #fff;
+  text-decoration: none;
+}
+.tagline {
+  margin: .6rem 0 1rem;
+  color: #b9b9ce;
+  line-height: 1.5;
+}
+
+.social { display: flex; gap: .6rem; margin-top: .6rem; }
+.socialBtn {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: #181a2e; border: 1px solid #24263b;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.socialBtn:hover {
+  transform: translateY(-2px);
+  background: #1b1d33; border-color: #2b2d48;
+}
+.icon { width: 20px; height: 20px; color: #dcdcef; }
+
+/* links */
+.links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 1.2rem;
+}
+.links h4 {
+  margin: 0 0 .6rem;
+  color: #f0f0ff;
+  font-size: 1rem;
+}
+.links ul { list-style: none; padding: 0; margin: 0; }
+.links a {
+  color: #c8c8de; text-decoration: none;
+}
+.links a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.contactList li { color: #c8c8de; }
+
+/* barra inferior */
+.bottom {
+  border-top: 1px solid #24263b;
+  margin-top: 1rem;
+  padding: 1rem 0 1.3rem;
+  text-align: center;
+  color: #b9b9ce;
+}
+.creditBrand {
+  color: #FFD166;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.creditBrand:hover { filter: brightness(1.05); }
+
+/* responsive */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+  .links {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .links {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .socialBtn { transition: none; }
+}

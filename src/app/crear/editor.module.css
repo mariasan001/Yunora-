@@ -1,0 +1,115 @@
+/* ===== Tokens Yunora ===== */
+:root {
+  --yu-lilac: #5A4FCF;
+  --yu-gold:  #FFD166;
+  --yu-ink-900: #1f1d2b;
+  --yu-ink-700: #4b4b4b;
+  --yu-ink-600: #6a6a6a;
+  --yu-card: #fff;
+  --yu-border: #eee;
+  --yu-soft-border: #ECEAFF;
+  --yu-ring: rgba(90,79,207,.18);
+}
+
+/* ===== Layout base ===== */
+.wrap { padding: 1.5rem 2rem 2rem; }
+
+.header{
+  display:grid; grid-template-columns: 1fr auto auto; gap:.8rem; align-items:center;
+  margin: 0 0 1rem;
+}
+.back{ color: var(--yu-lilac); text-decoration:none; font-weight: 800; }
+.header h1{ text-align:center; margin:0; color: var(--yu-ink-900); font-weight: 900; }
+.actions{ justify-self:end; display:flex; gap:.6rem; flex-wrap:wrap; }
+
+/* Botones principales */
+.btnPrimary, .btnSecondary{
+  border-radius: 999px; padding: .6rem 1rem; font-weight: 800; text-decoration:none;
+  border: none; cursor: pointer; display:inline-flex; align-items:center; justify-content:center;
+}
+.btnPrimary{ background: var(--yu-lilac); color:#fff; }
+.btnSecondary{ background: var(--yu-gold); color:#2D2D2D; }
+
+/* Editor grid */
+.editor{
+  display:grid; grid-template-columns: 360px 1fr; gap: 1rem; margin-top: .5rem;
+}
+
+/* ===== Panel izquierdo ===== */
+.panel{
+  background: var(--yu-card); border: 1px solid var(--yu-border); border-radius: 14px;
+  padding: 1rem; box-shadow: 0 10px 26px rgba(0,0,0,.05);
+  height: calc(100svh - 140px); overflow: auto; position: sticky; top: 80px;
+}
+
+.group{ margin-bottom: 1rem; }
+.group h3{ margin: .2rem 0 .6rem; color: var(--yu-ink-900); }
+.row{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.radio{ display:inline-flex; align-items:center; gap:.35rem; }
+
+.colors{ display:grid; grid-template-columns: repeat(3, 1fr); gap:.6rem; }
+
+/* Controles: usa SIEMPRE la clase .control en inputs/textarea */
+.select,
+.control{
+  width:100%; border: 1px solid #ddd; border-radius: 10px; padding: .55rem .7rem;
+  background:#fff;
+}
+.label{ display:grid; gap:.25rem; margin-bottom:.6rem; font-size:.95rem; color:#333; }
+.hint{ color:#777; font-size:.9rem; }
+
+/* ===== Paywall / Planes ===== */
+.planBar{ display:flex; gap:.5rem; align-items:center; }
+.planChip{
+  border:1px solid var(--yu-soft-border); background:#F9F8FF; color:#4a3fd0;
+  padding:.35rem .7rem; border-radius:999px; font-weight:800; font-size:.92rem; cursor:pointer;
+}
+.planChipActive{
+  background:var(--yu-gold); color:#2D2D2D; border-color:#f5c650;
+  box-shadow:0 6px 16px rgba(255,209,102,.35);
+}
+
+.badgePro{
+  display:inline-flex; align-items:center; gap:.35rem;
+  background:#FFF6D6; color:#6A5600; border:1px solid #FFE6A3;
+  padding:.2rem .5rem; border-radius:999px; font-size:.82rem; font-weight:700;
+}
+
+.lockWrap{ position:relative; }
+.lockOverlay{
+  position:absolute; inset:0; background:rgba(255,255,255,.65); border-radius:10px;
+  display:grid; place-items:center; border:1px dashed #E7E3FF;
+}
+.lockOverlay p{ margin:0; color:#5747cc; font-weight:700; display:flex; align-items:center; gap:.35rem; }
+
+.upsell{
+  background:#fff; border:1px solid var(--yu-soft-border); border-radius:14px; padding:.9rem;
+  box-shadow:0 12px 28px rgba(0,0,0,.06); display:grid; gap:.5rem;
+}
+.upsellActions{ display:flex; gap:.5rem; flex-wrap:wrap; }
+.btnGold{
+  background:var(--yu-gold); color:#2D2D2D; border:none; border-radius:999px;
+  padding:.5rem .9rem; font-weight:800; cursor:pointer;
+}
+.btnGhost{
+  background:#F9F8FF; color:#4a3fd0; border:1px solid var(--yu-soft-border);
+  border-radius:999px; padding:.5rem .9rem; font-weight:800; cursor:pointer;
+}
+
+/* Footer de acciones bajo la preview */
+.footerBar{
+  position: sticky; bottom: 0; margin-top: 1rem; background:#fff; padding-top:.8rem;
+  border-top:1px solid #F0EEFF; display:flex; gap:.6rem; justify-content:flex-end; flex-wrap:wrap;
+}
+
+/* Marca de agua en la tarjeta de preview */
+.watermark{
+  position:absolute; left:0; right:0; bottom:10px; text-align:center;
+  opacity:.35; font-weight:800; font-size:.9rem; color:var(--yu-lilac);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 980px){
+  .editor{ grid-template-columns: 1fr; }
+  .panel{ position: static; height: auto; }
+}

@@ -1,0 +1,86 @@
+.wrap {
+  position: relative;
+  padding: 4.5rem 2rem;
+  background:
+    radial-gradient(1100px 520px at 85% 10%, rgba(90,79,207,.10), transparent 60%),
+    radial-gradient(900px 500px at 10% 90%, rgba(255,209,102,.15), transparent 60%),
+    #ffffff;
+}
+
+.inner {
+  width: min(980px, 92%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kicker {
+  display: inline-block;
+  font-size: .85rem;
+  font-weight: 700;
+  color: #5A4FCF;
+  background: rgba(90,79,207,.08);
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  margin-bottom: .7rem;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  color: #1f1d2b;
+  margin: 0 0 .6rem;
+}
+.title span { color: #5A4FCF; }
+
+.lead {
+  color: #4b4b4b;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  margin: 0 auto 1.2rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+.chips span {
+  font-size: .92rem;
+  color: #3c3c3c;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 999px;
+  padding: .45rem .75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,.04);
+}
+
+.ctaRow {
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: .8rem;
+}
+
+.primary, .secondary {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  padding: .85rem 1.4rem;
+  border-radius: 999px;
+}
+.primary { background: #5A4FCF; color: #fff; }
+.primary:hover { filter: brightness(1.04); }
+.secondary { background: transparent; color: #5A4FCF; border: 2px solid #5A4FCF; }
+.secondary:hover { background: #5A4FCF; color: #fff; }
+
+.note {
+  margin-top: .3rem;
+  color: #6a6a6a;
+  font-size: .95rem;
+}
+
+/* reduce motion friendly */
+@media (prefers-reduced-motion: reduce) {
+  .primary, .secondary { transition: none; }
+}

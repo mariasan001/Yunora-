@@ -1,0 +1,56 @@
+/* Contenedor de la vista previa */
+.previewWrap{
+  display:grid; place-items:start center; min-height: 60vh;
+}
+
+/* Tarjeta (área de la invitación) */
+.previewCard{
+  width: min(420px, 92vw);
+  background:#fff; border:1px solid #eee; border-radius:18px;
+  padding: 1.1rem 1.2rem 1.4rem;
+  box-shadow:0 18px 36px rgba(0,0,0,.08);
+  position:relative;
+}
+
+/* ===== Template: Classic ===== */
+.classic{ display:grid; gap:.5rem; text-align:center; }
+.ribbon{
+  height: 10px; border-radius: 8px; margin-bottom: .6rem;
+}
+.title{
+  margin:.2rem 0 0; font-weight:900; font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+}
+.subtitle{
+  margin:0; color:#6a6a6a; font-weight:700;
+}
+.msg{
+  margin:.2rem 0 .4rem; color:#4b4b4b;
+}
+.info{
+  display:grid; gap:.2rem; margin:.1rem 0 .6rem;
+  color:#333; font-weight:700;
+}
+.btn{
+  display:inline-block; padding:.6rem 1rem; border-radius:999px; color:#fff; text-decoration:none;
+  font-weight:800;
+}
+
+/* ===== Template: Minimal ===== */
+.minimal{ display:grid; gap:.6rem; }
+.infoBlock{
+  display:grid; grid-template-columns: 1fr 1fr 1fr; gap:.6rem;
+  border:2px solid #ddd; border-radius:14px; padding:.6rem;
+}
+.infoBlock small{ display:block; color:#6a6a6a; }
+.infoBlock strong{ display:block; color:#1f1d2b; }
+
+.link{
+  font-weight:800; text-decoration:none;
+}
+
+/* Reutilizadas por ambos */
+.subtitle, .msg, .info, .link { font-size: .98rem; }
+
+@media (max-width:520px){
+  .infoBlock{ grid-template-columns: 1fr; }
+}
