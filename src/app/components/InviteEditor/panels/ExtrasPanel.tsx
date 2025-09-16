@@ -5,45 +5,88 @@ import type { Plan } from "@/lib/plans";
 import { canUse } from "@/lib/plans";
 
 export default function ExtrasPanel({
-  plan, choosePlan,
-}: { plan: Plan; choosePlan: (p: Plan) => void }) {
+  plan,
+  choosePlan,
+}: {
+  plan: Plan;
+  choosePlan: (p: Plan) => void;
+}) {
+  const lockedRSVP = !canUse("rsvpAdvanced", plan);
+  const lockedQR   = !canUse("qrAccess", plan);
+
   return (
-    <div className={styles.group}>
-      <h3>Extras</h3>
+    <section className={styles.group} aria-labelledby="extras-title">
+      <h3 id="extras-title">Extras</h3>
 
       {/* RSVP avanzado */}
-      <div className={styles.lockWrap}>
-        {!canUse("rsvpAdvanced", plan) && (
-          <div className={styles.lockOverlay}><p><Lock size={16}/> Plus</p></div>
+      <article
+        className={styles.lockWrap}
+        aria-disabled={lockedRSVP}
+        aria-labelledby="rsvp-title"
+      >
+        {lockedRSVP && (
+          <div className={styles.lockOverlay} aria-hidden="true">
+            <p><Lock size={16} /> Plus</p>
+          </div>
         )}
+
         <div className={styles.upsell}>
-          <span className={styles.badgePro}>RSVP avanzado</span>
-          <small>Formulario con asistentes y recordatorios.</small>
-          {!canUse("rsvpAdvanced", plan) && (
+          <div className={styles.upsellHeader}>
+            <span id="rsvp-title" className={styles.badgePro}>RSVP avanzado</span>
+            <small className={styles.extraMeta}>
+              Formulario con asistentes y recordatorios.
+            </small>
+          </div>
+
+          {lockedRSVP && (
             <div className={styles.upsellActions}>
               <a href="#plans" className={styles.btnGold}>Ver planes</a>
-              <button className={styles.btnGhost} onClick={()=>choosePlan("plus")}>Probar en demo</button>
+              <button
+                type="button"
+                className={styles.btnGhost}
+                onClick={() => choosePlan("plus")}
+              >
+                Probar en demo
+              </button>
             </div>
           )}
         </div>
-      </div>
+      </article>
 
-      {/* QR */}
-      <div className={styles.lockWrap} style={{ marginTop: ".6rem" }}>
-        {!canUse("qrAccess", plan) && (
-          <div className={styles.lockOverlay}><p><Lock size={16}/> Premium</p></div>
+      {/* QR acceso */}
+      <article
+        className={styles.lockWrap}
+        aria-disabled={lockedQR}
+        aria-labelledby="qr-title"
+      >
+        {lockedQR && (
+          <div className={styles.lockOverlay} aria-hidden="true">
+            <p><Lock size={16} /> Premium</p>
+          </div>
         )}
+
         <div className={styles.upsell}>
-          <span className={styles.badgePro}>QR de acceso</span>
-          <small>Control de entrada con lista.</small>
-          {!canUse("qrAccess", plan) && (
+          <div className={styles.upsellHeader}>
+            <span id="qr-title" className={styles.badgePro}>QR de acceso</span>
+            <small className={styles.extraMeta}>
+              Control de entrada con lista y códigos.
+            </small>
+          </div>
+
+          {lockedQR && (
             <div className={styles.upsellActions}>
               <a href="#plans" className={styles.btnGold}>Subir a Premium</a>
-              <button className={styles.btnGhost} onClick={()=>choosePlan("premium")}>Ver demo</button>
+              <button
+                type="button"
+                className={styles.btnGhost}
+                onClick={() => choosePlan("premium")}
+              >
+                Ver demo
+              </button>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }

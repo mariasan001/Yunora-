@@ -1,0 +1,24 @@
+.planBar{
+  display:flex; gap:.5rem; align-items:center;
+  overflow:auto hidden; overscroll-behavior-x: contain;
+  padding:.2rem; border-radius:999px;
+  scrollbar-width:none;
+}
+.planBar::-webkit-scrollbar{ display:none; }
+
+.chip{
+  white-space:nowrap;
+  padding:.45rem .8rem; border-radius:999px; font-weight:800;
+  border:1px solid #e7e1ff; background:#f6f4ff; color:#3b34a8;
+  cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.chip:hover{ transform:translateY(-1px); box-shadow:0 8px 18px rgba(59,52,168,.12); }
+.active{
+  background:#5A4FCF; color:#fff; border-color:#5A4FCF; box-shadow:0 10px 22px rgba(90,79,207,.25);
+}
+
+/* pequeños matices por plan (opcional) */
+.free{}
+.plus{ }
+.premium{}
+.agency{}

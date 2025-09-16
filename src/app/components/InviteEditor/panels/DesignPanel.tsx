@@ -1,63 +1,69 @@
+// src/components/InviteEditor/panels/DesignPanel.tsx
 "use client";
+
 import styles from "@/app/crear/editor.module.css";
 import { Config, Variant } from "../../features/invite/types";
 
-export default function DesignPanel({
-  cfg, variants, onColorsChange, onVariantChange,
-}: {
+type Props = {
   cfg: Config;
-  variants: Variant[];
+  variants: readonly Variant[];                 // 👈 variantes tipadas
+  onVariantChange: (v: Variant) => void;        // 👈 acepta Variant
   onColorsChange: (colors: Config["colors"]) => void;
-  onVariantChange: (v: Variant) => void;
-}) {
+};
+
+export default function DesignPanel({
+  cfg, variants, onVariantChange, onColorsChange,
+}: Props) {
   return (
     <div className={styles.group}>
-      <h3>Plantilla (gratis)</h3>
+      <h3>Ajustes</h3>
 
-      <div className={styles.tplChips} role="tablist" aria-label="Elegir plantilla">
+      <div className={styles.label} style={{ marginBottom: ".5rem" }}>
+        <strong className={styles.sectionLead}>Plantilla (gratis)</strong>
+      </div>
+
+      <div className={styles.tplChips} role="tablist" aria-label="Seleccionar plantilla">
         {variants.map((v) => (
           <button
             key={v}
+            type="button"
             role="tab"
             aria-selected={cfg.variant === v}
-            type="button"
             className={`${styles.tplChip} ${cfg.variant === v ? styles.tplChipActive : ""}`}
-            onClick={() => onVariantChange(v)}
-            title={`Elegir ${labelOf(v)}`}
+            onClick={() => onVariantChange(v)}         // 👈 ahora coincide
           >
-            {labelOf(v)}
+            {capitalize(v)}
           </button>
         ))}
       </div>
 
-      <h3 style={{marginTop:".8rem"}}>Colores</h3>
-      <div className={styles.colors}>
-        <div>
-          <label>Primario</label>
-          <input className={styles.control} type="color" value={cfg.colors.primary}
-            onChange={(e)=>onColorsChange({ ...cfg.colors, primary: e.target.value })}/>
-        </div>
-        <div>
-          <label>Secundario</label>
-          <input className={styles.control} type="color" value={cfg.colors.secondary}
-            onChange={(e)=>onColorsChange({ ...cfg.colors, secondary: e.target.value })}/>
-        </div>
-        <div>
-          <label>Fondo</label>
-          <input className={styles.control} type="color" value={cfg.colors.bg}
-            onChange={(e)=>onColorsChange({ ...cfg.colors, bg: e.target.value })}/>
-        </div>
+      <div className={styles.sectionDivider} />
+
+      <div className={styles.label}>
+        <strong className={styles.sectionLead}>Color</strong>
+        <small className={styles.help}>Elige el color principal de tu invitación.</small>
       </div>
 
-      <p className={styles.hint}>La tipografía viene optimizada por plantilla para mantener la estética ✨</p>
+      <div className={styles.colorRow}>
+        <label className={styles.colorItem}>
+          <span>Primario</span>
+          <input
+            className={`${styles.control} ${styles.colorInput}`}
+            type="color"
+            value={cfg.colors.primary}
+            onChange={(e) => onColorsChange({ ...cfg.colors, primary: e.target.value })}
+            aria-label="Color primario"
+          />
+        </label>
+      </div>
+
+      <p className={styles.note}>
+        La tipografía viene optimizada por plantilla para mantener la estética ✨
+      </p>
     </div>
   );
 }
 
-function labelOf(v: Variant) {
-  switch (v) {
-    case "botanica": return "Botánica";
-    case "tipografica": return "Tipográfica";
-    case "floral": return "Floral";
-  }
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
