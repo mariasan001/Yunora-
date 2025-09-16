@@ -17,7 +17,7 @@ const ICON_BY_TYPE: Record<EventType, LucideIcon> = {
   despedida: Plane, infantil: PartyPopper, civil: ScrollText, pedida: Gem, familiar: Users,
 };
 
-/* Chips visibles arriba */
+/* Chips arriba: mostramos los más usados + 'Todos' */
 type Chip = "todos" | "boda" | "xv" | "cumple" | "bautizo" | "graduacion";
 const CHIP_LABEL: Record<Chip, string> = {
   todos: "Todos",
@@ -27,6 +27,7 @@ const CHIP_LABEL: Record<Chip, string> = {
   bautizo: "Bautizo",
   graduacion: "Graduación",
 };
+const CHIP_ORDER: Chip[] = ["todos", "boda", "xv", "cumple", "bautizo", "graduacion"];
 
 export default function CrearSelectorPage() {
   const [chip, setChip] = useState<Chip>("todos");
@@ -38,8 +39,8 @@ export default function CrearSelectorPage() {
       Icon: ICON_BY_TYPE[key],
       href: `/crear/${key}`,
     }));
+
     if (chip === "todos") return list;
-    // filtra por el chip seleccionado
     return list.filter((i) => i.key === chip);
   }, [chip]);
 
@@ -54,7 +55,7 @@ export default function CrearSelectorPage() {
         </p>
 
         <div className={styles.chips} role="tablist" aria-label="Filtrar tipos de evento">
-          {(Object.keys(CHIP_LABEL) as Chip[]).map((c) => (
+          {CHIP_ORDER.map((c) => (
             <button
               key={c}
               role="tab"

@@ -113,3 +113,14 @@
   .editor{ grid-template-columns: 1fr; }
   .panel{ position: static; height: auto; }
 }
+/* Chips para elegir plantilla */
+.tplChips{ display:flex; gap:.5rem; flex-wrap:wrap; }
+.tplChip{
+  border:1px solid var(--yu-soft-border, #ECEAFF);
+  background:#F9F8FF; color:#4a3fd0;
+  padding:.4rem .8rem; border-radius:999px; font-weight:800; cursor:pointer;
+}
+.tplChipActive{
+  background: var(--yu-gold); color:#2D2D2D; border-color:#f5c650;
+  box-shadow: 0 6px 16px rgba(255,209,102,.35);
+}
