@@ -1,73 +1,150 @@
-// features/invite/presets.ts
+ // features/invite/presets.ts
 import type { EventType } from "@/lib/events";
-import type { Config, Variant, FontKey, BaseInviteData } from "./types";
+import type {
+  Config,
+  Variant,
+  FontKey,
+  BaseInviteData,
+  Colors,
+} from "./types";
 
-const VARIANT_DEFAULTS: Record<Variant, { font: FontKey; colors: Config["colors"] }> = {
-  botanica:    { font: "serif",  colors: { primary: "#2F6A3A", secondary: "#8BBE92", bg: "#FFFFFF" } },
-  tipografica: { font: "script", colors: { primary: "#7A64FF", secondary: "#FFD7A3", bg: "#FFFFFF" } },
-  floral:      { font: "serif",  colors: { primary: "#8C5ACF", secondary: "#FFC766", bg: "#FFFFFF" } },
+/* ===========================
+   Defaults por VARIANTE
+   =========================== */
+const VARIANT_DEFAULTS: Record<Variant, { font: FontKey; colors: Colors }> = {
+  botanica: {
+    font: "serif",
+    colors: { primary: "#232323", secondary: "#8BBE92", bg: "#FFFFFF" },
+  },
+  tipografica: {
+    font: "script",
+    colors: { primary: "#232323", secondary: "#FFD7A3", bg: "#FFFFFF" },
+  },
+  floral: {
+    font: "serif",
+    colors: { primary: "#232323", secondary: "#FFC766", bg: "#FFFFFF" },
+  },
 };
 
+/* ===========================
+   Datos base (comunes a todas)
+   =========================== */
 export const DEFAULT_DATA: BaseInviteData = {
   title: "Tu evento",
   date: "2025-12-31",
   time: "19:00",
   location: "Ciudad de México",
-  rsvpLabel: "",                 // vacío para no usarlo en Botánica
 
+  // RSVP opcional (Botánica no lo usa)
+  rsvpLabel: "",
+
+  // copys superiores
   kicker: "¡NOS CASAMOS!",
   blessing: "CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES",
-  inviteLine: "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
+
+  // línea central
+  inviteLine:
+    "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
+
+  // pie
   attire: "VESTIMENTA FORMAL",
-  kidsAllowed: false,            // por defecto: “NO NIÑOS”
+  kidsAllowed: false, // false => “NO NIÑOS”
 };
 
+/* ===========================
+   Variantes gratis por EVENTO (chips)
+   =========================== */
 const FREE_VARIANTS_BY_EVENT: Record<EventType, Variant[]> = {
-  boda: ["botanica", "tipografica", "floral"],
-  xv: ["tipografica", "floral", "botanica"],
-  bautizo: ["botanica", "floral", "tipografica"],
-  cumple: ["tipografica", "floral", "botanica"],
-  babyshower: ["botanica", "floral", "tipografica"],
-  graduacion: ["tipografica", "botanica", "floral"],
-  comunion: ["botanica", "floral", "tipografica"],
+  boda:        ["botanica", "tipografica", "floral"],
+  xv:          ["tipografica", "floral", "botanica"],
+  bautizo:     ["botanica", "floral", "tipografica"],
+  cumple:      ["tipografica", "floral", "botanica"],
+  babyshower:  ["botanica", "floral", "tipografica"],
+  graduacion:  ["tipografica", "botanica", "floral"],
+  comunion:    ["botanica", "floral", "tipografica"],
   aniversario: ["tipografica", "floral", "botanica"],
-  despedida: ["tipografica", "botanica", "floral"],
-  infantil: ["floral", "tipografica", "botanica"],
-  civil: ["tipografica", "botanica", "floral"],
-  pedida: ["floral", "botanica", "tipografica"],
-  familiar: ["botanica", "floral", "tipografica"],
+  despedida:   ["tipografica", "botanica", "floral"],
+  infantil:    ["floral", "tipografica", "botanica"],
+  civil:       ["tipografica", "botanica", "floral"],
+  pedida:      ["floral", "botanica", "tipografica"],
+  familiar:    ["botanica", "floral", "tipografica"],
 };
 
-type EvOverride = { colors?: Partial<Config["colors"]>; data?: Partial<BaseInviteData> };
+/* ===========================
+   Overrides por EVENTO + VARIANTE
+   (solo diferencias vs DEFAULT_DATA)
+   =========================== */
+type EvOverride = {
+  colors?: Partial<Colors>;
+  data?: Partial<BaseInviteData>;
+};
 
-const EVENT_VARIANTS: Partial<Record<EventType, Partial<Record<Variant, EvOverride>>>> = {
+const EVENT_VARIANTS: Partial<
+  Record<EventType, Partial<Record<Variant, EvOverride>>>
+> = {
+  /* -------- BODA -------- */
   boda: {
     botanica: {
+      colors: { primary: "#232323", secondary: "#8BBE92", bg: "#FFFFFF" },
       data: {
         title: "Marcela & Andrés",
-        inviteLine: "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
-        attire: "VESTIMENTA FORMAL",
-        kidsAllowed: false,
         date: "2025-08-18",
         time: "19:00",
         location: "Las Palmas Quintas, Monterrey",
+        inviteLine:
+          "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
+        attire: "VESTIMENTA FORMAL",
+        kidsAllowed: false,
+      },
+    },
+    tipografica: {
+      data: {
+        title: "Marcela & Andrés",
+        inviteLine:
+          "Junto a nuestras familias, los esperamos para celebrar.",
+        date: "2025-08-18",
+        time: "19:00",
+        location: "Las Palmas Quintas, Monterrey",
+        attire: "FORMAL",
+      },
+    },
+    floral: {
+      colors: { primary: "#232323", secondary: "#FFE0A1", bg: "#FFFFFF" },
+      data: {
+        title: "Marcela & Andrés",
+        inviteLine: "El amor se celebra en familia.",
+        date: "2025-08-18",
+        time: "19:00",
+        location: "Las Palmas Quintas, Monterrey",
+        attire: "FORMAL — NO NIÑOS",
+        kidsAllowed: false,
       },
     },
   },
-  // …otros eventos si quieres
+
+  /* -------- EJEMPLOS EXTRA (añade cuando los necesites) -------- */
+  // cumple: { ... },
+  // bautizo: { ... },
 };
 
+/* ===========================
+   API pública
+   =========================== */
 export function getFreeVariants(eventType: EventType): Variant[] {
   return FREE_VARIANTS_BY_EVENT[eventType] ?? ["botanica", "tipografica", "floral"];
 }
 
-export function getVariantSeed(eventType: EventType, variant: Variant): Partial<Config> {
+export function getVariantSeed(
+  eventType: EventType,
+  variant: Variant
+): Partial<Config> {
   const base = VARIANT_DEFAULTS[variant];
   const ev = EVENT_VARIANTS[eventType]?.[variant];
+
   return {
     variant,
     font: base.font,
     colors: { ...base.colors, ...(ev?.colors || {}) },
-    data: { ...DEFAULT_DATA, ...(ev?.data || {}) },
+    data:   { ...DEFAULT_DATA, ...(ev?.data   || {}) },
   };
 }

@@ -1,0 +1,126 @@
+:root{
+  --ink:#131315;
+  --muted:#6f7077;
+}
+
+/* ===== tarjeta (ancho y padding fluidos) ===== */
+.root{
+  width: clamp(320px, 92vw, 500px);
+  min-height: auto;
+  margin: 0 auto;
+  padding: clamp(20px, 5vw, 36px);
+  border-radius: 26px;
+  background:
+    var(--paper) center/720px repeat,
+    #fff;
+  box-shadow: 0 20px 44px rgba(0,0,0,.10);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== nombres ===== */
+.names{
+  display: grid;
+  justify-items: center;
+  row-gap: clamp(2px, .8vw, 6px);
+  margin-block: clamp(6px, 1.2vw, 14px);
+  line-height: .88;
+  text-wrap: balance;
+}
+
+.name{
+  font-family: var(--font-didone), "Didot","Bodoni MT","Bodoni Moda", serif;
+  font-weight: 600;
+  font-size: clamp(49px, 12.8vw, 90px);
+  letter-spacing: .015em;
+  color: var(--primary);                 /* ← SOLO aquí usa el color primario */
+}
+
+.and{
+  font-family: var(--font-text), "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 5.6vw, 34px);
+  letter-spacing: .01em;
+  margin-top: -4px;
+  color: var(--ink);                     /* fijo */
+}
+
+/* ===== copy central ===== */
+.inviteCopy{
+  text-align: center;
+  margin: clamp(12px, .4vw, 8px) auto clamp(8px, 1.8vw, 14px);
+  font-family: var(--font-text), serif;
+  font-size: clamp(.9rem, 1.5vw, 1.03rem);
+  letter-spacing: .10em;
+  color: var(--muted);
+  max-width: clamp(74ch, 36vw, 76ch);
+  text-wrap: balance;
+}
+
+/* ===== fecha ===== */
+.date{
+  text-align: center;
+  font-family: var(--font-didone), serif;
+  font-size: clamp(24px, 6.5vw, 48px);
+  letter-spacing: .14em;
+  margin: clamp(8px, 1.8vw, 14px) 0 clamp(10px, 2vw, 16px);
+  color: var(--primary);                 /* ← y aquí también usa el primario */
+}
+
+/* ===== lugar / ceremonia ===== */
+.placeBlock{
+  text-align: center;
+  display: grid;
+  gap: clamp(6px, 1.2vw, 10px);
+}
+
+.arrival{
+  font-family: var(--font-text), serif;
+  letter-spacing: .12em;
+  font-size: clamp(.82rem, 1.8vw, .95rem);
+  color: var(--muted);
+}
+
+.venue{
+  font-family: var(--font-text), serif;
+  font-weight: 500;
+  font-size: clamp(.95rem, 2vw, 1.05rem);
+  letter-spacing: .06em;
+}
+
+/* ===== pie ===== */
+.footerNote{
+  text-align: center;
+  margin-top: clamp(22px, 4vw, 32px);
+  font-family: var(--font-text), serif;
+  font-size: clamp(.84rem, 1.9vw, .96rem);
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+
+/* ===== micro-ajustes por breakpoint ===== */
+@media (max-width: 380px){
+  .name{ letter-spacing: .007em; line-height: .86; }
+  .inviteCopy{ letter-spacing: .09em; max-width: 28ch; }
+  .date{ letter-spacing: .12em; }
+  .footerNote{ letter-spacing: .12em; }
+}
+
+@media (max-width: 480px){
+  .root{ border-radius: 22px; }
+  .inviteCopy{ max-width: 30ch; }
+}
+
+@media (min-width: 768px){
+  .name{ letter-spacing: .02em; }
+  .inviteCopy{ letter-spacing: .11em; max-width: 34ch; }
+  .date{ letter-spacing: .16em; }
+}
+
+@media (min-width: 1024px){
+  .root{ padding: clamp(28px, 3.6vw, 40px); }
+  .names{ row-gap: 6px; }
+  .inviteCopy{ max-width: 36ch; }
+}
