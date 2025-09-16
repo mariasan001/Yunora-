@@ -2,12 +2,11 @@
 
 import type { Config } from "@/app/components/features/invite/types";
 import s from "./Botanica.module.css";
-import Watermark from "@/app/components/common/Watermark"; // ⬅️ nuevo
+import Watermark from "@/app/components/common/Watermark";
 
-/** ===== main ===== */
 export default function Botanica({
   cfg,
-  watermark = false, // ⬅️ nuevo: control externo
+  watermark = false,
 }: {
   cfg: Config;
   watermark?: boolean;
@@ -27,6 +26,19 @@ export default function Botanica({
     cfg.data.location || "BW EVENTOS, Blvd. Antonio L. Rodríguez 3066, Santa María, MTY N.L."
   );
 
+  // Textos editables con fallback
+  const topKicker   = (cfg.data.kicker    || "¡NOS CASAMOS!").toUpperCase();
+  const topBlessing = (cfg.data.blessing  || "CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES").toUpperCase();
+  const inviteLine  = (cfg.data.inviteLine|| "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL").toUpperCase();
+
+  const attire = (cfg.data.attire || "VESTIMENTA FORMAL").toUpperCase();
+  const kidsSuffix =
+    cfg.data.kidsAllowed === undefined
+      ? " — NO NIÑOS"
+      : cfg.data.kidsAllowed
+      ? " — CON NIÑOS"
+      : " — NO NIÑOS";
+
   return (
     <div
       className={s.root}
@@ -37,7 +49,7 @@ export default function Botanica({
         } as React.CSSProperties
       }
     >
-      {/* ===== Initials row ===== */}
+      {/* Iniciales + nombres cortos */}
       <header className={s.initialsRow}>
         <div className={s.initialCol}>
           <div className={s.initial}>{leftInitial}</div>
@@ -52,8 +64,9 @@ export default function Botanica({
         </div>
       </header>
 
-      <p className={s.kicker}>¡NOS CASAMOS!</p>
-      <p className={s.subkicker}>CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES</p>
+      {/* Encabezados superiores */}
+      <p className={s.kicker}>{topKicker}</p>
+      <p className={s.subkicker}>{topBlessing}</p>
 
       {/* Nombres script */}
       <div className={s.namesBlock}>
@@ -68,11 +81,10 @@ export default function Botanica({
         </span>
       </div>
 
-      <p className={s.inviteLine}>
-        TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL
-      </p>
+      {/* Línea de invitación central */}
+      <p className={s.inviteLine}>{inviteLine}</p>
 
-      {/* Fecha / venue */}
+      {/* Fecha / lugar */}
       <section className={s.details}>
         <div className={s.dateCol}>
           <div className={s.dayBig}>{dayNum}</div>
@@ -91,28 +103,29 @@ export default function Botanica({
         </div>
       </section>
 
+      {/* Agradecimiento */}
       <p className={s.thanks}>Gracias por acompañarnos</p>
 
+      {/* Vestimenta + niños (centrado) */}
       <p className={s.footerNote}>
         <Hanger className={s.hanger} />
-        VESTIMENTA FORMAL — NO NIÑOS
+        {attire}
+        {kidsSuffix}
       </p>
 
-      {/* ===== Marca de agua (footer coqueto + diagonal en print) ===== */}
-     {watermark && (
+      {/* Marca de agua opcional */}
+      {watermark && (
         <Watermark
-          variant="chip"            // "chip" o "corner"
           brand="Yunora"
           url="https://yunora.mx"
           showCTA
-         
         />
       )}
     </div>
   );
 }
 
-/** ===== helpers ===== */
+/* ===== Helpers ===== */
 function splitNames(title: string) {
   // “Ana & David” | “Ana y David” | “Ana   David”
   const byAmp = title.split("&");
@@ -141,9 +154,8 @@ function safeDate(iso?: string) {
   return isNaN(d.getTime()) ? null : d;
 }
 
-/** ===== ornaments (SVG) ===== */
+/** Tulipán tintable por --primary */
 function Tulip({ className }: { className?: string }) {
-  // estilizado, tintable (currentColor = var(--primary))
   return (
     <svg className={className} viewBox="0 0 64 64" aria-hidden="true">
       <g fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">

@@ -8,22 +8,31 @@ export const FONT_OPTIONS = [
 ] as const;
 export type FontKey = typeof FONT_OPTIONS[number]["key"];
 
-/** Campos comunes a TODAS las variantes (los opcionales evitan errores en unions) */
+/** Campos comunes a todas las variantes */
 export type BaseInviteData = {
+  /** Nombres de los novios */
   title: string;
+
+  /** Fecha/hora/lugar */
   date: string;
   time: string;
   location: string;
+
+  /** RSVP (puede estar vacío si la variante no lo usa) */
   rsvpLabel: string;
 
-  /** Línea larga tipo “Tenemos el honor…” */
-  message?: string;
+  /** Top lines */
+  kicker?: string;        // “¡NOS CASAMOS!”
+  blessing?: string;      // “CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES”
 
-  /** Lo usamos como “Vestimenta” (p.ej. “Formal — No niños”) */
-  subtitle?: string;
+  /** Línea de invitación central (la larga) */
+  inviteLine?: string;    // “TENEMOS EL HONOR DE INVITARLOS…”
+
+  /** Vestimenta y niños */
+  attire?: string;        // “VESTIMENTA FORMAL”
+  kidsAllowed?: boolean;  // false => “NO NIÑOS”, true => “CON NIÑOS”
 };
 
-/** Si alguna variante necesita extras, extiende BaseInviteData */
 export type BotanicaData    = BaseInviteData;
 export type TipograficaData = BaseInviteData;
 export type FloralData      = BaseInviteData;
@@ -34,6 +43,6 @@ export type Config = {
   variant: Variant;
   font: FontKey;
   colors: { primary: string; secondary: string; bg: string };
-  data: VariantData; // <- ahora SIEMPRE tiene message/subtitle (opcionales)
+  data: VariantData;
   type: import("@/lib/events").EventType;
 };

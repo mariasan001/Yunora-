@@ -1,17 +1,16 @@
+// components/InviteEditor/panels/ContentPanel.tsx
 "use client";
 import styles from "@/app/crear/editor.module.css";
 import type { Config } from "../../features/invite/types";
 
 export default function ContentPanel({
-  cfg,
-  onDataChange,
+  cfg, onDataChange,
 }: {
   cfg: Config;
-  onDataChange: <K extends keyof Config["data"]>(
-    key: K,
-    value: Config["data"][K]
-  ) => void;
+  onDataChange: <K extends keyof Config["data"]>(key: K, value: Config["data"][K]) => void;
 }) {
+  const isBotanica = cfg.variant === "botanica";
+
   return (
     <div className={styles.group}>
       <h3>Contenido</h3>
@@ -22,27 +21,43 @@ export default function ContentPanel({
         <input
           className={styles.control}
           value={cfg.data.title}
-          placeholder="Ej. Ana & David"
-          onChange={(e) => onDataChange("title", e.target.value)}
-          aria-label="Nombres de los novios"
+          onChange={(e)=>onDataChange("title", e.target.value)}
+          placeholder="Marcela & Andrés"
         />
       </label>
 
-      {/* Línea de invitación / mensaje */}
+      {/* Línea de invitación (se ve en el centro de la tarjeta) */}
       <label className={styles.label}>
         Línea de invitación
-        <textarea
+        <input
           className={styles.control}
-          rows={3}
-          value={cfg.data.message}
-          placeholder="Tenemos el honor de invitarles a celebrar nuestra unión…"
-          onChange={(e) => onDataChange("message", e.target.value)}
-          aria-label="Línea de invitación"
+          value={cfg.data.inviteLine ?? ""}
+          onChange={(e)=>onDataChange("inviteLine", e.target.value)}
+          placeholder="Tenemos el honor de invitarlos a celebrar nuestra unión…"
         />
-        <small className={styles.hint}>
-          Puedes dejarla en blanco si no la necesitas.
-        </small>
       </label>
+
+      {/* Textos superiores (opcionales) */}
+      <div className={styles.fieldRow}>
+        <label className={styles.label}>
+          Texto superior
+          <input
+            className={styles.control}
+            value={cfg.data.kicker ?? ""}
+            onChange={(e)=>onDataChange("kicker", e.target.value)}
+            placeholder="¡NOS CASAMOS!"
+          />
+        </label>
+        <label className={styles.label}>
+          Subtítulo superior
+          <input
+            className={styles.control}
+            value={cfg.data.blessing ?? ""}
+            onChange={(e)=>onDataChange("blessing", e.target.value)}
+            placeholder="CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES"
+          />
+        </label>
+      </div>
 
       {/* Fecha y hora */}
       <div className={styles.fieldRow}>
@@ -52,19 +67,16 @@ export default function ContentPanel({
             className={styles.control}
             type="date"
             value={cfg.data.date}
-            onChange={(e) => onDataChange("date", e.target.value)}
-            aria-label="Fecha del evento"
+            onChange={(e)=>onDataChange("date", e.target.value)}
           />
         </label>
-
         <label className={styles.label}>
           Hora
           <input
             className={styles.control}
             type="time"
             value={cfg.data.time}
-            onChange={(e) => onDataChange("time", e.target.value)}
-            aria-label="Hora del evento"
+            onChange={(e)=>onDataChange("time", e.target.value)}
           />
         </label>
       </div>
@@ -75,40 +87,48 @@ export default function ContentPanel({
         <input
           className={styles.control}
           value={cfg.data.location}
-          placeholder="Ej. Las Palmas Quintas, Monterrey"
-          onChange={(e) => onDataChange("location", e.target.value)}
-          aria-label="Lugar del evento"
+          onChange={(e)=>onDataChange("location", e.target.value)}
+          placeholder="Las Palmas Quintas, Monterrey"
         />
       </label>
 
-      {/* Vestimenta + botón */}
+      {/* Vestimenta + Niños */}
       <div className={styles.fieldRow}>
         <label className={styles.label}>
           Vestimenta
-          {/* Reutilizamos 'subtitle' como vestimenta */}
           <input
             className={styles.control}
-            value={cfg.data.subtitle}
-            placeholder="Ej. Formal"
-            onChange={(e) => onDataChange("subtitle", e.target.value)}
-            aria-label="Vestimenta sugerida"
+            value={cfg.data.attire ?? ""}
+            onChange={(e)=>onDataChange("attire", e.target.value)}
+            placeholder="VESTIMENTA FORMAL"
           />
-          <small className={styles.hint}>
-            Se mostrará al pie (p. ej., “VESTIMENTA FORMAL — NO NIÑOS”).
-          </small>
         </label>
 
+        <label className={styles.label}>
+          ¿Niños?
+          <select
+            className={styles.control}
+            value={(cfg.data.kidsAllowed ?? false) ? "si" : "no"}
+            onChange={(e)=>onDataChange("kidsAllowed", e.target.value === "si")}
+          >
+            <option value="no">No niños</option>
+            <option value="si">Con niños</option>
+          </select>
+        </label>
+      </div>
+
+      {/* RSVP: oculto en Botánica */}
+      {!isBotanica && (
         <label className={styles.label}>
           Texto del botón
           <input
             className={styles.control}
             value={cfg.data.rsvpLabel}
+            onChange={(e)=>onDataChange("rsvpLabel", e.target.value)}
             placeholder="Confirmar asistencia"
-            onChange={(e) => onDataChange("rsvpLabel", e.target.value)}
-            aria-label="Texto del botón principal"
           />
         </label>
-      </div>
+      )}
     </div>
   );
 }
