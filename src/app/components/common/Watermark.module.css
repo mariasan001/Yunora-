@@ -1,0 +1,87 @@
+:root{
+  --wm-bg: color-mix(in oklab, #ffffff 86%, #f3f0ff);
+  --wm-fg: #26233b;
+  --wm-br: color-mix(in oklab, var(--tint, #5A4FCF) 22%, #cfc9ff);
+}
+
+/* Chip centrado inferior (blur + borde suave) */
+.wmChip{
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .48rem .8rem;
+  border-radius: 999px;
+  border: 1px solid var(--wm-br);
+  background: var(--wm-bg);
+  backdrop-filter: blur(6px);
+  color: var(--wm-fg);
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  font-size: .88rem;
+  transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+  user-select: none;
+}
+
+.wmChip:hover{
+  box-shadow: 0 16px 34px rgba(0,0,0,.12);
+  border-color: color-mix(in oklab, var(--tint, #5A4FCF) 34%, #bfb8ff);
+  transform: translateX(-50%) translateY(-1px);
+}
+
+.brand{
+  font-weight: 800;
+  font-variant: all-small-caps;
+  letter-spacing: .04em;
+}
+
+.dot{ opacity:.45; }
+
+.link{
+  color: color-mix(in oklab, var(--tint, #5A4FCF) 86%, #2b246f);
+  text-decoration: none;
+  font-weight: 800;
+  border-bottom: 1px solid color-mix(in oklab, var(--tint, #5A4FCF) 40%, transparent);
+  padding-bottom: .02rem;
+}
+.link:hover{ border-color: currentColor; }
+
+/* Tag de esquina (ultra discreto) */
+.wmCorner{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-block;
+  padding: .35rem .55rem;
+  background: var(--wm-bg);
+  border: 1px solid var(--wm-br);
+  border-radius: 12px;
+  color: color-mix(in oklab, var(--tint, #5A4FCF) 86%, #2b246f);
+  font-weight: 900;
+  letter-spacing: .03em;
+  text-decoration: none;
+  opacity: .9;
+  transition: opacity .15s ease, transform .15s ease;
+  backdrop-filter: blur(6px);
+}
+.wmCorner:hover{ opacity: 1; transform: translateY(-1px); }
+
+/* Impresión: mostrar patrón diagonal y ocultar chip/tag */
+.printOnly{ display: none; }
+@media print{
+  .wmChip, .wmCorner{ display: none !important; }
+  .printOnly{
+    display:block;
+    position:fixed;
+    inset:0;
+    background: var(--diag) repeat;
+    z-index: 0;
+  }
+}
+
+/* Mobile: un poco más compacto */
+@media (max-width: 480px){
+  .wmChip{ gap:.45rem; padding:.42rem .68rem; font-size:.82rem; }
+}

@@ -1,0 +1,73 @@
+/* src/app/components/watermark/Watermark.module.css */
+
+.wmFooter{
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: .76rem;
+  line-height: 1;
+  color: #6f6f77;
+  letter-spacing: .06em;
+  background: transparent;
+  padding: .35rem .5rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  pointer-events: auto;
+}
+
+.brand{
+  font-weight: 900;
+  color: color-mix(in oklab, var(--primary, #4e5c51) 60%, #3a3a3a);
+  letter-spacing: .02em;
+}
+
+.link{
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  opacity: .95;
+}
+.link:hover{
+  color: color-mix(in oklab, var(--primary, #4e5c51) 70%, #2c2c2c);
+}
+
+.dot{ opacity:.4; margin: 0 .1rem; }
+
+.wmCorner{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: .25rem .55rem;
+  font-weight: 900;
+  font-size: .74rem;
+  color: color-mix(in oklab, var(--primary, #4e5c51) 70%, #2c2c2c);
+  background: rgba(255,255,255,.72);
+  border: 1px solid color-mix(in oklab, var(--primary, #4e5c51) 18%, #dcdcdc);
+  border-radius: 8px;
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* Marca diagonal solo en impresión */
+.printOnly{ display: none; }
+@media print{
+  .wmFooter, .wmCorner{ display: none !important; }
+  .printOnly{
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-image: var(--diag);
+    background-size: 320px 320px;
+    background-repeat: repeat;
+    opacity: 1;
+    pointer-events: none;
+  }
+}
+@media (max-width: 380px){
+  .wmFooter{ bottom: 8px; font-size: .72rem; gap: .35rem; }
+}

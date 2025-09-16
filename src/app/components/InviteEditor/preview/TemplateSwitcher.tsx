@@ -1,9 +1,9 @@
+// src/app/components/InviteEditor/preview/TemplateSwitcher.tsx
 "use client";
 import dynamic from "next/dynamic";
 import PreviewFrame from "./PreviewFrame";
-import { Config } from "../../features/invite/types";
+import type { Config } from "../../features/invite/types";
 
-/* Dynamic imports (cada uno trae su CSS Module solo al usarse) */
 const Botanica = dynamic(() => import("./variants/botanica/Botanica"));
 
 export default function TemplateSwitcher({
@@ -17,11 +17,17 @@ export default function TemplateSwitcher({
 }) {
   const commonStyle = { fontFamily: fontCSS } as React.CSSProperties;
 
+  // (Opcional) normalizar aquí también
+  const safeColors = {
+    primary:   cfg.colors?.primary   ?? "#5A4FCF",
+    secondary: cfg.colors?.secondary ?? "#ECEAFF",
+    bg:        cfg.colors?.bg        ?? "#FFFFFF",
+  };
+
   return (
-    <PreviewFrame colors={cfg.colors} watermark={watermark}>
+    <PreviewFrame colors={safeColors} watermark={watermark}>
       <div style={commonStyle}>
         {cfg.variant === "botanica" && <Botanica cfg={cfg} />}
-
       </div>
     </PreviewFrame>
   );

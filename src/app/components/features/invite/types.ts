@@ -1,3 +1,4 @@
+// features/invite/types.ts
 export type Variant = "botanica" | "tipografica" | "floral";
 
 export const FONT_OPTIONS = [
@@ -7,16 +8,32 @@ export const FONT_OPTIONS = [
 ] as const;
 export type FontKey = typeof FONT_OPTIONS[number]["key"];
 
-export type Config = {
-  /* solo variante (sin classic/minimal) */
-  variant: Variant;
-  /* font bloqueada por variante (no se muestra en UI) */
-  font: FontKey;
+/** Campos comunes a TODAS las variantes (los opcionales evitan errores en unions) */
+export type BaseInviteData = {
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  rsvpLabel: string;
 
+  /** Línea larga tipo “Tenemos el honor…” */
+  message?: string;
+
+  /** Lo usamos como “Vestimenta” (p.ej. “Formal — No niños”) */
+  subtitle?: string;
+};
+
+/** Si alguna variante necesita extras, extiende BaseInviteData */
+export type BotanicaData    = BaseInviteData;
+export type TipograficaData = BaseInviteData;
+export type FloralData      = BaseInviteData;
+
+export type VariantData = BotanicaData | TipograficaData | FloralData;
+
+export type Config = {
+  variant: Variant;
+  font: FontKey;
   colors: { primary: string; secondary: string; bg: string };
-  data: {
-    title: string; subtitle: string; message: string;
-    date: string; time: string; location: string; rsvpLabel: string;
-  };
+  data: VariantData; // <- ahora SIEMPRE tiene message/subtitle (opcionales)
   type: import("@/lib/events").EventType;
 };

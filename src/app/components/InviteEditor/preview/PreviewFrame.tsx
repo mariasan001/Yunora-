@@ -1,30 +1,41 @@
+// src/app/components/InviteEditor/preview/PreviewFrame.tsx
 "use client";
-import styles from "./ frame.module.css";
+import Watermark from "../../common/Watermark";
+import styles from "./PreviewFrame.module.css";
+
+type Colors = {
+  primary: string;
+  secondary?: string;
+  bg?: string;
+};
 
 export default function PreviewFrame({
   colors,
-  watermark,
   children,
+  watermark,
 }: {
-  colors: { primary: string; secondary: string; bg: string };
-  watermark?: boolean;
+  colors: Colors;
   children: React.ReactNode;
+  watermark?: boolean;
 }) {
+  // Defaults seguros si vienen undefined
+  const primary   = colors.primary ?? "#5A4FCF";
+  const secondary = colors.secondary ?? "#ECEAFF";
+  const bg        = colors.bg ?? "#FFFFFF";
+
   return (
     <div
-      className={styles.wrap}
+      className={styles.frame}
       style={
         {
-          "--primary": colors.primary,
-          "--secondary": colors.secondary,
-          "--bg": colors.bg,
+          ["--primary" as any]: primary,
+          ["--secondary" as any]: secondary,
+          ["--bg" as any]: bg,
         } as React.CSSProperties
       }
     >
-      <div className={styles.paper}>
-        <div className={styles.inner}>{children}</div>
-        {watermark && <div className={styles.watermark}>Yunora · Vista previa</div>}
-      </div>
+      {children}
+      {watermark && <Watermark/>}
     </div>
   );
 }
