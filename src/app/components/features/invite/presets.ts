@@ -1,59 +1,48 @@
- // features/invite/presets.ts
+// features/invite/presets.ts
 import type { EventType } from "@/lib/events";
-import type {
-  Config,
-  Variant,
-  FontKey,
-  BaseInviteData,
-  Colors,
-} from "./types";
+import type { Config, Variant, FontKey, BaseInviteData, Colors } from "./types";
+import type { Plan } from "@/lib/plans";
 
-/* ===========================
-   Defaults por VARIANTE
-   =========================== */
+/* ============ Defaults por VARIANTE ============ */
 const VARIANT_DEFAULTS: Record<Variant, { font: FontKey; colors: Colors }> = {
-  botanica: {
-    font: "serif",
-    colors: { primary: "#232323", secondary: "#8BBE92", bg: "#FFFFFF" },
-  },
-  tipografica: {
-    font: "script",
-    colors: { primary: "#232323", secondary: "#FFD7A3", bg: "#FFFFFF" },
-  },
-  floral: {
-    font: "serif",
-    colors: { primary: "#232323", secondary: "#FFC766", bg: "#FFFFFF" },
-  },
+  // Gratis
+  botanica:    { font: "serif",  colors: { primary: "#2F6A3A", secondary: "#8BBE92", bg: "#FFFFFF" } },
+  tipografica: { font: "serif",  colors: { primary: "#131315", secondary: "#EDECF8", bg: "#FFFFFF" } },
+  floral:      { font: "serif",  colors: { primary: "#2A1F1D", secondary: "#EED9C4", bg: "#FBF8F4" } },
+  // Plus
+  plusAurora:  { font: "sans",   colors: { primary: "#4E7DF2", secondary: "#E9EEFF", bg: "#FFFFFF" } },
 };
 
-/* ===========================
-   Datos base (comunes a todas)
-   =========================== */
+/* ============ Defaults de DATA (comunes) ============ */
 export const DEFAULT_DATA: BaseInviteData = {
-  title: "Tu evento",
-  date: "2025-12-31",
-  time: "19:00",
+  title: "Marcela & Andrés",
+  date:  "2025-12-31",
+  time:  "19:00",
   location: "Ciudad de México",
-
-  // RSVP opcional (Botánica no lo usa)
   rsvpLabel: "",
 
-  // copys superiores
-  kicker: "¡NOS CASAMOS!",
+  kicker:   "¡NOS CASAMOS!",
   blessing: "CON LA BENDICIÓN DE DIOS Y NUESTROS PADRES",
+  inviteLine: "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
 
-  // línea central
-  inviteLine:
-    "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
-
-  // pie
   attire: "VESTIMENTA FORMAL",
-  kidsAllowed: false, // false => “NO NIÑOS”
+  kidsAllowed: false,
+
+  // PLUS EXTRAS (opcionales; vacíos por defecto)
+  ceremonyTitle: "Ceremonia",
+  ceremonyTime:  "",
+  ceremonyAddress: "",
+  receptionTitle: "Recepción",
+  receptionTime:  "",
+  receptionAddress: "",
+  itinerary: [],
+  padrinos: "",
+  gratitude: "",
+  menu: "",
+  showCountdown: false,
 };
 
-/* ===========================
-   Variantes gratis por EVENTO (chips)
-   =========================== */
+/* ============ Variantes disponibles por EVENTO y PLAN ============ */
 const FREE_VARIANTS_BY_EVENT: Record<EventType, Variant[]> = {
   boda:        ["botanica", "tipografica", "floral"],
   xv:          ["tipografica", "floral", "botanica"],
@@ -70,80 +59,67 @@ const FREE_VARIANTS_BY_EVENT: Record<EventType, Variant[]> = {
   familiar:    ["botanica", "floral", "tipografica"],
 };
 
-/* ===========================
-   Overrides por EVENTO + VARIANTE
-   (solo diferencias vs DEFAULT_DATA)
-   =========================== */
-type EvOverride = {
-  colors?: Partial<Colors>;
-  data?: Partial<BaseInviteData>;
+const PLUS_VARIANTS_BY_EVENT: Record<EventType, Variant[]> = {
+  boda:        ["plusAurora"],
+  xv:          ["plusAurora"],
+  bautizo:     ["plusAurora"],
+  cumple:      ["plusAurora"],
+  babyshower:  ["plusAurora"],
+  graduacion:  ["plusAurora"],
+  comunion:    ["plusAurora"],
+  aniversario: ["plusAurora"],
+  despedida:   ["plusAurora"],
+  infantil:    ["plusAurora"],
+  civil:       ["plusAurora"],
+  pedida:      ["plusAurora"],
+  familiar:    ["plusAurora"],
 };
 
-const EVENT_VARIANTS: Partial<
-  Record<EventType, Partial<Record<Variant, EvOverride>>>
-> = {
-  /* -------- BODA -------- */
+/* ============ Overrides por EVENTO + VARIANTE (solo diferencias) ============ */
+type EvOverride = { colors?: Partial<Colors>; data?: Partial<BaseInviteData> };
+
+const EVENT_VARIANTS: Partial<Record<EventType, Partial<Record<Variant, EvOverride>>>> = {
   boda: {
     botanica: {
-      colors: { primary: "#232323", secondary: "#8BBE92", bg: "#FFFFFF" },
       data: {
-        title: "Marcela & Andrés",
-        date: "2025-08-18",
-        time: "19:00",
-        location: "Las Palmas Quintas, Monterrey",
-        inviteLine:
-          "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
+        inviteLine: "TENEMOS EL HONOR DE INVITARLOS A CELEBRAR NUESTRA UNIÓN MATRIMONIAL",
         attire: "VESTIMENTA FORMAL",
         kidsAllowed: false,
       },
     },
-    tipografica: {
+    // Ejemplo Plus
+    plusAurora: {
       data: {
-        title: "Marcela & Andrés",
-        inviteLine:
-          "Junto a nuestras familias, los esperamos para celebrar.",
-        date: "2025-08-18",
-        time: "19:00",
-        location: "Las Palmas Quintas, Monterrey",
-        attire: "FORMAL",
-      },
-    },
-    floral: {
-      colors: { primary: "#232323", secondary: "#FFE0A1", bg: "#FFFFFF" },
-      data: {
-        title: "Marcela & Andrés",
-        inviteLine: "El amor se celebra en familia.",
-        date: "2025-08-18",
-        time: "19:00",
-        location: "Las Palmas Quintas, Monterrey",
-        attire: "FORMAL — NO NIÑOS",
-        kidsAllowed: false,
+        inviteLine: "Junto a nuestras familias, los esperamos para celebrar.",
+        ceremonyTime: "18:00",
+        ceremonyAddress: "Parroquia San José, Monterrey",
+        receptionTime: "20:00",
+        receptionAddress: "Las Palmas Quintas, Monterrey",
+        itinerary: [
+          { time: "18:00", label: "Ceremonia" },
+          { time: "20:00", label: "Recepción" },
+          { time: "21:30", label: "Primer baile" },
+          { time: "22:00", label: "Brindis" },
+        ],
+        showCountdown: true,
       },
     },
   },
-
-  /* -------- EJEMPLOS EXTRA (añade cuando los necesites) -------- */
-  // cumple: { ... },
-  // bautizo: { ... },
 };
 
-/* ===========================
-   API pública
-   =========================== */
-export function getFreeVariants(eventType: EventType): Variant[] {
+/* ============ API pública ============ */
+export function getVariantsForPlan(eventType: EventType, plan: Plan): Variant[] {
+  if (plan === "plus")    return PLUS_VARIANTS_BY_EVENT[eventType] ?? ["plusAurora"];
+  if (plan === "premium") return PLUS_VARIANTS_BY_EVENT[eventType] ?? ["plusAurora"]; // por ahora igual que plus
   return FREE_VARIANTS_BY_EVENT[eventType] ?? ["botanica", "tipografica", "floral"];
 }
 
-export function getVariantSeed(
-  eventType: EventType,
-  variant: Variant
-): Partial<Config> {
+export function getVariantSeed(eventType: EventType, variant: Variant): Partial<Config> {
   const base = VARIANT_DEFAULTS[variant];
-  const ev = EVENT_VARIANTS[eventType]?.[variant];
-
+  const ev   = EVENT_VARIANTS[eventType]?.[variant];
   return {
     variant,
-    font: base.font,
+    font:   base.font,
     colors: { ...base.colors, ...(ev?.colors || {}) },
     data:   { ...DEFAULT_DATA, ...(ev?.data   || {}) },
   };

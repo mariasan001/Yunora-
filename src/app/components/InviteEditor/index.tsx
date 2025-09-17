@@ -1,4 +1,3 @@
-// src/components/InviteEditor/index.tsx
 "use client";
 
 import Link from "next/link";
@@ -20,54 +19,55 @@ export default function InviteEditor({ initialType }: { initialType: EventType }
     plan, choosePlan, PLAN_ORDER, PLAN_LABEL,
     fontCSS, previewLink, shareWhatsApp,
   } = useInviteState(initialType);
-// 1) deja fuera "agency" con tipado estricto
-const VISIBLE_PLANS = PLAN_ORDER.filter(
-  (p): p is Exclude<Plan, "agency"> => p !== "agency"
-);
+
+  // Oculta "agency" en la barra de planes
+  const VISIBLE_PLANS = PLAN_ORDER.filter(
+    (p): p is Exclude<Plan, "agency"> => p !== "agency"
+  );
 
   return (
     <main className={styles.wrap}>
-{/* ===== TOOLBAR FIJA (pulida) ===== */}
-    <div className={styles.toolbar} role="region" aria-label="Barra del editor">
-      <div className={styles.tLeft}>
-        <Link href="/crear" className={styles.back}>← Regresar</Link>
+      {/* ===== TOOLBAR FIJA ===== */}
+      <div className={styles.toolbar} role="region" aria-label="Barra del editor">
+        <div className={styles.tLeft}>
+          <Link href="/crear" className={styles.back}>← Regresar</Link>
+        </div>
+
+        <div className={styles.tCenter}>
+          <h1 className={styles.title}>
+            <span className={styles.tStrong}>Editor —</span>{" "}
+            <span className={styles.tSoft}>{titleForType(cfg.type)}</span>
+          </h1>
+        </div>
+
+        <div className={styles.tRight}>
+          <PlanBar
+            order={VISIBLE_PLANS}
+            label={PLAN_LABEL}
+            value={plan}
+            onChange={choosePlan}
+            className={styles.planSlim}
+          />
+
+          <a
+            className={styles.btnPrimary}
+            href={previewLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Previsualizar
+          </a>
+
+          <button
+            className={`${styles.btnSecondary} ${!canUse("removeWatermark", plan) ? styles.btnWatermark : ""}`}
+            onClick={shareWhatsApp}
+          >
+            {canUse("removeWatermark", plan) ? "Compartir" : "Compartir (marca de agua)"}
+          </button>
+        </div>
       </div>
 
-      <div className={styles.tCenter}>
-        <h1 className={styles.title}>
-          <span className={styles.tStrong}>Editor —</span>{" "}
-          <span className={styles.tSoft}>{titleForType(cfg.type)}</span>
-        </h1>
-      </div>
-
-      <div className={styles.tRight}>
-        {/* Solo Gratis / Plus / Premium (sin Agencia) */}
-    <PlanBar
-  order={VISIBLE_PLANS}
-  label={PLAN_LABEL}
-  value={plan}
-  onChange={choosePlan}
-  className={styles.planSlim}
-/>
-
-        <a
-          className={styles.btnPrimary}
-          href={previewLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Previsualizar
-        </a>
-
-        <button
-          className={`${styles.btnSecondary} ${!canUse("removeWatermark", plan) ? styles.btnWatermark : ""}`}
-          onClick={shareWhatsApp}
-        >
-          {canUse("removeWatermark", plan) ? "Compartir" : "Compartir (marca de agua)"}
-        </button>
-      </div>
-</div>
-      {/* ===== CONTENIDO ===== */}
+      {/* ===== CUERPO ===== */}
       <section className={styles.editor}>
         {/* Panel izquierdo (sticky) */}
         <aside className={styles.panel} aria-label="Panel de edición">
@@ -77,12 +77,11 @@ const VISIBLE_PLANS = PLAN_ORDER.filter(
             cfg={cfg}
             variants={variants}
             onVariantChange={changeVariant}
-            onColorsChange={onColorsChange}
-          />
+            onColorsChange={onColorsChange} plan={"free"}          />
 
           <div className={styles.sectionDivider} />
 
-          <ContentPanel cfg={cfg} onDataChange={onDataChange} />
+          <ContentPanel cfg={cfg} onDataChange={onDataChange} plan={"free"} />
 
           <div className={styles.sectionDivider} />
 
@@ -91,7 +90,6 @@ const VISIBLE_PLANS = PLAN_ORDER.filter(
 
         {/* Lienzo / Vista */}
         <div className={styles.canvas}>
-          {/* 👇 NUEVO: contenedor para anclar la preview a la izquierda y controlar su ancho */}
           <div className={styles.canvasInner}>
             <TemplateSwitcher
               cfg={cfg}

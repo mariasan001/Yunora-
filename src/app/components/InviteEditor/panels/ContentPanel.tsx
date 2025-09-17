@@ -1,15 +1,17 @@
-// components/InviteEditor/panels/ContentPanel.tsx
 "use client";
 import styles from "@/app/crear/editor.module.css";
 import type { Config } from "../../features/invite/types";
+import type { Plan } from "@/lib/plans";
 
 export default function ContentPanel({
-  cfg, onDataChange,
+  cfg, plan, onDataChange,
 }: {
   cfg: Config;
+  plan: Plan;
   onDataChange: <K extends keyof Config["data"]>(key: K, value: Config["data"][K]) => void;
 }) {
   const isBotanica = cfg.variant === "botanica";
+  const isFree = plan === "free";
 
   return (
     <div className={styles.group}>
@@ -26,7 +28,7 @@ export default function ContentPanel({
         />
       </label>
 
-      {/* Línea de invitación (se ve en el centro de la tarjeta) */}
+      {/* Línea de invitación */}
       <label className={styles.label}>
         Línea de invitación
         <input
@@ -37,7 +39,7 @@ export default function ContentPanel({
         />
       </label>
 
-      {/* Textos superiores (opcionales) */}
+      {/* Superiores */}
       <div className={styles.fieldRow}>
         <label className={styles.label}>
           Texto superior
@@ -117,17 +119,82 @@ export default function ContentPanel({
         </label>
       </div>
 
-      {/* RSVP: oculto en Botánica */}
-      {!isBotanica && (
+      {/* RSVP: oculto en Botánica (Gratis), visible en otras */}
+      {(!isBotanica || !isFree) && (
         <label className={styles.label}>
           Texto del botón
           <input
             className={styles.control}
-            value={cfg.data.rsvpLabel}
+            value={cfg.data.rsvpLabel ?? ""}
             onChange={(e)=>onDataChange("rsvpLabel", e.target.value)}
             placeholder="Confirmar asistencia"
           />
         </label>
+      )}
+
+      {/* ===== PLUS EXTRA CAMPOS ===== */}
+      { !isFree && (
+        <>
+          <div className={styles.sectionDivider} />
+
+          <h4 className={styles.subhead}>Ceremonia</h4>
+          <div className={styles.fieldRow}>
+            <label className={styles.label}>
+              Título
+              <input className={styles.control}
+                value={cfg.data.ceremonyTitle ?? ""}
+                onChange={(e)=>onDataChange("ceremonyTitle", e.target.value)}
+                placeholder="Ceremonia" />
+            </label>
+            <label className={styles.label}>
+              Hora
+              <input className={styles.control}
+                type="time"
+                value={cfg.data.ceremonyTime ?? ""}
+                onChange={(e)=>onDataChange("ceremonyTime", e.target.value)} />
+            </label>
+          </div>
+          <label className={styles.label}>
+            Dirección / lugar
+            <input className={styles.control}
+              value={cfg.data.ceremonyAddress ?? ""}
+              onChange={(e)=>onDataChange("ceremonyAddress", e.target.value)} />
+          </label>
+
+          <h4 className={styles.subhead}>Recepción</h4>
+          <div className={styles.fieldRow}>
+            <label className={styles.label}>
+              Título
+              <input className={styles.control}
+                value={cfg.data.receptionTitle ?? ""}
+                onChange={(e)=>onDataChange("receptionTitle", e.target.value)}
+                placeholder="Recepción" />
+            </label>
+            <label className={styles.label}>
+              Hora
+              <input className={styles.control}
+                type="time"
+                value={cfg.data.receptionTime ?? ""}
+                onChange={(e)=>onDataChange("receptionTime", e.target.value)} />
+            </label>
+          </div>
+          <label className={styles.label}>
+            Dirección / lugar
+            <input className={styles.control}
+              value={cfg.data.receptionAddress ?? ""}
+              onChange={(e)=>onDataChange("receptionAddress", e.target.value)} />
+          </label>
+
+          <h4 className={styles.subhead}>Cuenta regresiva</h4>
+          <label className={styles.switchRow}>
+            <input
+              type="checkbox"
+              checked={!!cfg.data.showCountdown}
+              onChange={(e)=>onDataChange("showCountdown", e.target.checked)}
+            />
+            <span>Mostrar countdown hasta la fecha/hora</span>
+          </label>
+        </>
       )}
     </div>
   );

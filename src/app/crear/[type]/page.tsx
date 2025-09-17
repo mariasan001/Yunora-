@@ -1,4 +1,3 @@
-// src/app/crear/[type]/page.tsx
 import InviteEditor from "@/app/components/InviteEditor";
 import { isEventType, DEFAULT_EVENT_TYPE, type EventType, EVENT_TYPES } from "@/lib/events";
 

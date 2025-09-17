@@ -1,102 +1,61 @@
+// features/hooks/useInviteState.ts
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PLAN_LABEL, PLAN_ORDER, canUse } from "@/lib/plans";
-import type { Plan } from "@/lib/plans";
-
-import { base64urlEncode } from "../utils/base64"; // asegúrate que sea UTF-8 safe
+import { PLAN_LABEL, PLAN_ORDER, canUse, type Plan } from "@/lib/plans";
+import { base64urlEncode } from "../utils/base64";
 import { Config, FONT_OPTIONS, Variant } from "../invite/types";
-import { getFreeVariants, getVariantSeed } from "../invite/presets";
+import { getVariantSeed, getVariantsForPlan } from "../invite/presets";
 
-/**
- * Estado del editor: variante por evento, colores, contenido, plan, etc.
- * Genera también el link de Vista Previa (?d=...) compatible con /p.
- */
 export function useInviteState(initialType: Config["type"]) {
-  /** Plantillas gratis según el evento (boda ≠ cumple, etc.) */
-  const variants = useMemo(() => getFreeVariants(initialType), [initialType]);
-  const initialVariant = variants[0] ?? ("botanica" as Variant);
+  // 1) ¡clave! igual en SSR y 1er render del cliente
+  const [plan, setPlan] = useState<Plan>("free");
 
-  /** Plan persistido (free/plus/premium[/agency]) */
-  const [plan, setPlan] = useState<Plan>(() => {
-    if (typeof window === "undefined") return "free";
-    return ((localStorage.getItem("yunora.plan") as Plan) || "free") as Plan;
-  });
+  // 2) ya montado, sincroniza con localStorage y re-seedea
+  useEffect(() => {
+    const stored = (localStorage.getItem("yunora.plan") as Plan) || "free";
+    if (stored !== plan) setPlan(stored);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const choosePlan = (p: Plan) => {
     setPlan(p);
-    if (typeof window !== "undefined") localStorage.setItem("yunora.plan", p);
+    localStorage.setItem("yunora.plan", p);
   };
 
-  /** Estado inicial (semilla = evento + plantilla) */
+  // Variantes dependen del plan
+  const variants = useMemo(() => getVariantsForPlan(initialType, plan), [initialType, plan]);
+  const initialVariant = (variants[0] ?? "botanica") as Variant;
+
+  // Estado inicial determinista
   const seed0 = getVariantSeed(initialType, initialVariant);
   const [cfg, setCfg] = useState<Config>({
-    variant: seed0.variant!,
-    font: seed0.font!,
-    colors: seed0.colors!,
-    data: seed0.data!,
-    type: initialType,
+    variant: seed0.variant!, font: seed0.font!, colors: seed0.colors!, data: seed0.data!, type: initialType,
   });
 
-  /** Si cambia el tipo de evento desde la URL, resetea al primer preset de ese evento */
+  // Re-seed al cambiar tipo/plan
   useEffect(() => {
-    const v = getFreeVariants(initialType)[0] ?? ("botanica" as Variant);
+    const v = (getVariantsForPlan(initialType, plan)[0] ?? "botanica") as Variant;
     const seed = getVariantSeed(initialType, v);
-    setCfg({
-      variant: seed.variant!,
-      font: seed.font!,
-      colors: seed.colors!,
-      data: seed.data!,
-      type: initialType,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialType]);
+    setCfg({ variant: seed.variant!, font: seed.font!, colors: seed.colors!, data: seed.data!, type: initialType });
+  }, [initialType, plan]);
 
-  /** Cambiar de plantilla: conserva el contenido, actualiza estilo/typography */
   function changeVariant(v: Variant) {
     const seed = getVariantSeed(initialType, v);
-    setCfg((prev) => ({
-      ...prev,
-      variant: v,
-      font: seed.font!,
-      colors: seed.colors!,
-      // Si prefieres resetear textos del preset al cambiar variante:
-      // data: seed.data!,
-      data: prev.data,
-    }));
+    setCfg(prev => ({ ...prev, variant: v, font: seed.font!, colors: seed.colors!, data: prev.data }));
   }
-
-  /** Updates de contenido y colores */
-  function onDataChange<K extends keyof Config["data"]>(
-    key: K,
-    value: Config["data"][K]
-  ) {
-    setCfg((prev) => ({ ...prev, data: { ...prev.data, [key]: value } }));
+  function onDataChange<K extends keyof Config["data"]>(key: K, value: Config["data"][K]) {
+    setCfg(prev => ({ ...prev, data: { ...prev.data, [key]: value } }));
   }
-  function onColorsChange(colors: Config["colors"]) {
-    setCfg((prev) => ({ ...prev, colors }));
-  }
+  function onColorsChange(colors: Config["colors"]) { setCfg(prev => ({ ...prev, colors })); }
 
-  /** Font CSS efectiva (bloqueada por plantilla) */
-  const fontCSS = useMemo(
-    () => FONT_OPTIONS.find((f) => f.key === cfg.font)?.css ?? FONT_OPTIONS[0].css,
-    [cfg.font]
-  );
+  const fontCSS = useMemo(() => FONT_OPTIONS.find(f => f.key === cfg.font)?.css ?? FONT_OPTIONS[0].css, [cfg.font]);
 
-  /** Link de vista previa (mismo motor que el editor) */
   const previewLink = useMemo(() => {
-    const payload = {
-      v: cfg.variant, // Variant
-      c: cfg.colors, // { primary, secondary, bg }
-      f: cfg.font, // "serif" | "sans" | "script"
-      d: cfg.data, // contenido
-      y: cfg.type, // EventType
-      p: plan, // Plan
-    } as const;
-
+    const payload = { v: cfg.variant, c: cfg.colors, f: cfg.font, d: cfg.data, y: cfg.type, p: plan } as const;
     return `/p?d=${base64urlEncode(payload)}`;
   }, [cfg, plan]);
 
-  /** Compartir por WhatsApp */
   function shareWhatsApp() {
     if (!canUse("removeWatermark", plan)) {
       alert("Tip: con Plus/Premium quitas la marca de agua y desbloqueas extras ✨");
@@ -106,19 +65,9 @@ export function useInviteState(initialType: Config["type"]) {
   }
 
   return {
-    cfg,
-    setCfg,
-    variants, // chips de plantillas
-    changeVariant,
-    onDataChange,
-    onColorsChange,
-    plan,
-    choosePlan,
-    PLAN_ORDER,
-    PLAN_LABEL,
-    canUse,
-    fontCSS,
-    previewLink,
-    shareWhatsApp,
+    cfg, setCfg,
+    variants, changeVariant, onDataChange, onColorsChange,
+    plan, choosePlan, PLAN_ORDER, PLAN_LABEL, canUse,
+    fontCSS, previewLink, shareWhatsApp,
   };
 }
