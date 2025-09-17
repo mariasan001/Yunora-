@@ -20,6 +20,7 @@ export default function TemplateSwitcher({ cfg, fontCSS, watermark }: { cfg: Con
       <div style={commonStyle}>
         {cfg.variant === "botanica"    && <Botanica cfg={cfg} />}
         {cfg.variant === "tipografica" && <Tipografica cfg={cfg} />}
+        
         {cfg.variant === "plusAurora"  && <PlusAurora cfg={cfg} />}
       </div>
     </PreviewFrame>

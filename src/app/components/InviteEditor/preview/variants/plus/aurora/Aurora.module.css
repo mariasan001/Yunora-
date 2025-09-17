@@ -1,66 +1,294 @@
-:root {}
 
+/* =================================================
+   File: Aurora.module.css
+   (CSS Module para el componente)
+   ================================================= */
+:root{
+  --ink:#131315;
+  --muted:#6f7077;
+}
+
+/* ===== Lienzo principal ===== */
 .root{
-  width:min(540px,92vw);
-  margin:auto;
-  padding:24px 18px 28px;
-  border-radius:22px;
-  background:#fff;
-  box-shadow:0 18px 40px rgba(0,0,0,.10);
-  color:#191A1C;
+  width: clamp(320px, 92vw, 700px);
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 28px);
+  border-radius: 26px;
+  background:
+    var(--paper) center/720px repeat,
+    #fff;
+  color: var(--ink);
+  box-shadow: 0 22px 48px rgba(0,0,0,.12);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.header{ text-align:center; margin-bottom:10px; }
-.names{
-  font:600 clamp(28px,7vw,40px)/1.05 "Inter",system-ui,ui-sans-serif;
-  letter-spacing:.01em;
-}
-.invite{
-  margin-top:6px;
-  color:#6E7280;
-  letter-spacing:.12em;
-  font-size:.9rem;
-  text-transform:uppercase;
+/* ===== Portada (nombres + foto) ===== */
+.heroSimple{ position:relative; text-align:center; padding: 4px 4px 14px; overflow:hidden; }
+.heroSimple * { position: relative; z-index: 1; }
+
+/* Aurora background */
+.aurora{
+  position:absolute; inset:-6% -8% auto -8%; height:min(260px, 50vw);
+  
+  opacity:.45;
+  pointer-events:none;
 }
 
+.heroTitle{ margin: 0; }
+.heroNames{
+  font-family: "Bodoni Moda","Didot","Bodoni MT",serif;
+  font-weight: 600;
+  letter-spacing: .18em;
+  font-size: clamp(18px, 5.4vw, 30px);
+  color: var(--ink);
+}
+.heroSub{
+  margin: .2rem 0 1.0rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(14px, 3.6vw, 18px);
+  color: color-mix(in oklab, var(--ink) 70%, #777 30%);
+}
+
+.photoWrap{
+  width: clamp(240px, 86%, 500px);
+  margin: 0 auto 12px;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+.photo{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.06);
+  transform: scale(1.02);
+}
+
+/* ⏱️ Countdown */
 .countdown{
-  margin:10px auto 12px;
-  padding:.45rem .7rem;
-  width:max-content;
-  border-radius:999px;
-  background:color-mix(in oklab, var(--accent) 55%, #fff);
-  color:#1a1e2a;
-  font-weight:700;
-  letter-spacing:.06em;
+  margin: .6rem auto 0;
+  display: grid;
+  grid-auto-flow: column;
+  gap: clamp(8px, 2.4vw, 16px);
+  align-items: end;
+  justify-content: center;
+}
+.cdBox{ display: grid; justify-items: center; }
+.cdNum{
+  font-family: "Bodoni Moda","Didot","Bodoni MT",serif;
+  font-size: clamp(18px, 5.2vw, 26px);
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.cdLab{
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(11px, 2.8vw, 12px);
+  letter-spacing: .12em;
+  color: var(--muted);
 }
 
-.block{ text-align:center; margin:8px 0 12px; }
-.dateLine{
-  font-weight:700; letter-spacing:.14em;
+/* Agradecimiento */
+.gratitude{
+  max-width: 42ch;
+  margin: .8rem auto 0;
+  padding: 0 .5rem;
+  text-wrap: balance;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(14px, 3.4vw, 18px);
+  letter-spacing: .04em;
+  color: color-mix(in oklab, var(--ink) 78%, var(--primary) 22%);
 }
-.place{ color:#555; margin-top:4px; }
+.hDivider{
+  width: 1px; height: clamp(26px, 5vw, 40px);
+  margin: clamp(8px, 2vw, 14px) auto 0;
+  background: color-mix(in oklab, var(--ink) 35%, transparent);
+  border-radius: 2px;
+}
 
-.grid2{
-  display:grid; gap:.8rem; grid-template-columns:1fr 1fr;
-  margin-top:10px;
+/* ===== Día de la boda ===== */
+.day{ padding: clamp(10px, 3vw, 16px) 0; }
+.dayCard{ text-align:center; margin-bottom: clamp(8px, 2.4vw, 12px); }
+.dateBig{
+  font-family: "Bodoni Moda","Didot","Bodoni MT",serif;
+  font-weight: 700;
+  letter-spacing: .14em;
+  font-size: clamp(22px, 6.2vw, 36px);
 }
-.card{
-  border:1px solid color-mix(in oklab, var(--accent) 50%, #ccc);
-  border-radius:14px; padding:.8rem;
-  background:linear-gradient(180deg, #fff, color-mix(in oklab, var(--accent) 16%, #fff));
+/* Foil/textura en la fecha */
+.dateFoil{
+  background:
+    conic-gradient(from 120deg, color-mix(in oklab, var(--primary) 70%, #fff 30%), #222 30%, color-mix(in oklab, var(--primary) 60%, #bbb 40%) 60%, #222 85%, color-mix(in oklab, var(--primary) 70%, #fff 30%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.cardTitle{
-  font-weight:800; letter-spacing:.04em; margin:0 0 .25rem;
+.time{
+  font-family: "Cormorant Garamond", Georgia, serif;
+  letter-spacing: .12em;
+  font-size: clamp(13px, 3.2vw, 14px);
+  color: var(--muted);
 }
-.cardMeta{
-  font-weight:700; letter-spacing:.06em; color:#2b2f3a; margin:0 0 .2rem;
+.addCal{
+  display:inline-block; margin-top:8px; font-size:.88rem; text-decoration:none;
+  padding: 8px 12px; border-radius: 999px; letter-spacing:.08em;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--primary) 96%, #000 4%), color-mix(in oklab, var(--primary) 86%, #000 14%));
+  color:#fff; box-shadow:0 10px 20px color-mix(in oklab, var(--primary) 28%, transparent);
+  transition: transform .2s ease, filter .2s ease;
 }
-.cardText{ color:#5b5f6b; line-height:1.35; margin:0; }
+.addCal:hover{ transform: translateY(-1px); filter:brightness(.98); }
 
-.footer{ text-align:center; margin-top:12px; }
-.note{
-  color:#6E7280; letter-spacing:.16em; font-size:.86rem;
+.blocks{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(10px, 2.6vw, 14px);
 }
-@media (max-width: 420px){
-  .grid2{ grid-template-columns:1fr; }
+@media (min-width: 680px){
+  .blocks{ grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== Place cards (borde con brillo sutil) ===== */
+.placeCard{
+  padding: clamp(12px, 3vw, 16px);
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    conic-gradient(from 220deg, color-mix(in oklab, var(--primary) 28%, #fff 72%), #eaeaea, color-mix(in oklab, var(--primary) 20%, #fff 80%)) border-box;
+  box-shadow: 0 2px 0 rgba(0,0,0,.06), 0 12px 28px rgba(0,0,0,.06);
+}
+.placeTitle{
+  margin: 0 0 4px 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: .12em;
+  font-size: clamp(13px, 3.4vw, 14px);
+  color: color-mix(in oklab, var(--ink) 80%, var(--primary) 20%);
+  text-transform: uppercase;
+}
+.placeTime{
+  font-family: "Bodoni Moda","Didot","Bodoni MT",serif;
+  font-weight: 700;
+  font-size: clamp(16px, 4.6vw, 18px);
+  letter-spacing: .08em;
+}
+.placeName{
+  margin-top: 2px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(15px, 3.6vw, 16px);
+}
+.placeAddr{
+  margin-top: 2px;
+  font-size: clamp(12px, 2.8vw, 13px);
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.maps{
+  display: inline-block;
+  margin-top: 6px;
+  font-size: .9rem;
+  letter-spacing: .06em;
+  color: var(--primary);
+  text-decoration: none;
+}
+.maps:hover{ text-decoration: underline; }
+
+/* ===== Padrinos — moderno (glass) ===== */
+.honors{ margin-top: clamp(12px, 3vw, 18px); }
+.secTitle{
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: .12em;
+  font-size: clamp(13px, 3.4vw, 14px);
+  color: color-mix(in oklab, var(--ink) 80%, var(--primary) 20%);
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+}
+.honorsGrid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: clamp(10px, 2.6vw, 14px);
+}
+.honorCard{
+  padding: clamp(12px, 3vw, 16px);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.58));
+  border: 1px solid color-mix(in oklab, var(--primary) 24%, #000 / 6%);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+.honorRole{
+  display:block;
+  font-size: .78rem;
+  letter-spacing: .16em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.honorName{
+  font-family: "Bodoni Moda","Didot","Bodoni MT",serif;
+  font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+  letter-spacing: .02em;
+}
+
+/* ===== Timeline ===== */
+.timeline{ margin: clamp(16px, 3.6vw, 26px) 0; }
+
+/* Encabezado (título + copy) */
+.tHeader{ text-align:center; max-width: 56ch; margin: 0 auto 6px; padding: 0 .5rem; }
+.tIntro{ margin: 6px auto 0; text-wrap: balance; font-size: clamp(12px, 2.9vw, 14px); color: var(--muted); letter-spacing: .04em; }
+
+/* ===== Timeline centrada tipo póster ===== */
+.tCenterWrap{ position: relative; max-width: 520px; margin: 8px auto 0; padding: 0 10px; }
+.tCenterList{ list-style: none; margin: 0; padding: 0; position: relative; }
+.tCenterList::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:1px; transform: translateX(-.5px); background: linear-gradient(180deg, color-mix(in oklab, var(--primary) 40%, #000/0%), color-mix(in oklab, var(--primary) 18%, #000/10%)); }
+
+.tCItem{ position: relative; display:grid; justify-items:center; text-align:center; padding: 18px 0 24px; }
+.tCDot{ position:absolute; left:50%; top: 8px; width: 10px; height: 10px; border-radius: 999px; transform: translate(-50%, 0); background: var(--primary); box-shadow: 0 0 0 3px #fff, 0 0 0 5px color-mix(in oklab, var(--primary) 20%, #000/8%); }
+
+.tCTime{ margin-top: 12px; font-family: "Bodoni Moda","Didot","Bodoni MT",serif; font-weight: 700; letter-spacing:.08em; font-size: clamp(18px, 5vw, 22px); color: color-mix(in oklab, var(--ink) 85%, var(--primary) 15%); }
+.tCText{ max-width: 44ch; margin-top: 6px; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(12px, 2.9vw, 14px); line-height: 1.5; color: color-mix(in oklab, var(--ink) 70%, #777 30%); }
+
+/* ===== Vestimenta / Niños ===== */
+.attireKids{
+  margin: clamp(10px, 2.6vw, 16px) 0;
+  display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.chip{
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: .9rem;
+  letter-spacing: .10em;
+  background: color-mix(in oklab, var(--primary) 12%, #fff);
+  color: color-mix(in oklab, var(--ink) 75%, var(--primary) 25%);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 30%, #000 / 4%);
+}
+.dot{ opacity:.35; }
+
+/* ===== CTA & Watermark ===== */
+.ctaWrap{ text-align: center; margin-top: clamp(12px, 3vw, 18px); }
+.cta{
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: .10em;
+  font-weight: 600;
+  box-shadow: 0 10px 20px color-mix(in oklab, var(--primary) 28%, transparent);
+  transition: transform .18s ease, filter .18s ease;
+}
+.cta:hover{ filter: brightness(.96); transform: translateY(-1px); }
+.wm{ position: relative; z-index: 2; }
+
+/* ===== Accesibilidad: reduce motion ===== */
+@media (prefers-reduced-motion: reduce){
+  .addCal, .cta{ transition: none; }
+  .aurora{ filter: none; }
 }
